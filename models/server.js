@@ -9,7 +9,7 @@ class Server {
 
         // PATHS
         this.usersPath = '/api/users';
-        
+
         // Middlewares (funciones que se ejecutan cuando levantamos el servidor)
         this.middlewares();
 
@@ -20,6 +20,9 @@ class Server {
     middlewares(){
         // CORS
         this.app.use(cors());
+
+        // Read and Parse Body
+        this.app.use(express.json());
 
         //directorio publico 
         this.app.use(express.static('public'));
