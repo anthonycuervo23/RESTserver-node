@@ -3,16 +3,24 @@ const bcryptjs = require('bcryptjs');
 
 const User = require('../models/user');
 
-const usersGet = (req = request, res = response) => {
+  //get all users paginated
+const usersGet = async(req = request, res = response) => {
 
-    const {q} = req.query;
+  const { limit = 10, from = 0 } = req.query;
+
+  const users = await User.find({status: true})
+  .skip(Number(from))
+  .limit(Number(limit)); 
+  
+  const total = await User.countDocuments({status: true});
 
     res.json({
-        msg: 'get API - controller',
-        query: q
+      total: total,
+        users: users
     });
   }
 
+  //Create new user
 const usersPost = async(req = request, res = response) => {
 
     const { name, email, password, role } = req.body;
@@ -32,6 +40,7 @@ const usersPost = async(req = request, res = response) => {
     });
   }
 
+  //Update user info
   const usersPut = async(req = request, res = response) => {
 
     const { id } = req.params
@@ -54,13 +63,13 @@ const usersPost = async(req = request, res = response) => {
 
   const usersPatch = (req = request, res = response) => {
     res.json({
-        msg: 'patch API // controller'
+        msg: 'patch API - controller'
     });
   }
 
   const usersDelete = (req = request, res = response) => {
     res.json({
-        msg: 'delete API -. controller'
+        msg: 'delete API . controller'
     });
   }
 

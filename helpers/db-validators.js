@@ -22,4 +22,21 @@ const checkUserIdExist = async(id) =>{
     }
 }
 
-module.exports = {isValidRole, checkEmailExist, checkUserIdExist}
+const checkQueryLimit = async(limit = 10) =>{
+    if(isNaN(limit)){
+        throw new Error(`parameter ${limit} must be a number`);
+    }
+}
+
+const checkQueryFrom = async(from = 0) =>{
+    if(isNaN(from)){
+        throw new Error(`parameter ${from} must be a number`);
+    }
+}
+
+module.exports = {
+    isValidRole, 
+    checkEmailExist, 
+    checkUserIdExist, 
+    checkQueryLimit,
+    checkQueryFrom}

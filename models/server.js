@@ -1,11 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config.db');
+const swaggerUI = require('swagger-ui-express');
+const docs = require('../docs');
+const swaggerJsDoc = require('swagger-jsdoc');
 
 class Server {
 
     constructor(){
+
         this.app = express();
+
         this.port = process.env.PORT;
 
         // PATHS
@@ -21,6 +26,8 @@ class Server {
          this.routes();
     }
 
+
+
     async connectDB(){
         await dbConnection();
     }
@@ -35,6 +42,9 @@ class Server {
         //directorio publico 
         this.app.use(express.static('public'));
 
+        //Create swagger api ui documentation
+        this.app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(docs));
+
     }
 
     routes(){
@@ -45,7 +55,7 @@ class Server {
 
     listen(){
         this.app.listen(this.port, ()=>{
-            console.log('server running in port: ', this.port);
+            console.log('Server listening on port: ', this.port);
         });
 
     }

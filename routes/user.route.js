@@ -1,6 +1,10 @@
 const { Router } = require('express');
-const { check } = require('express-validator');
-const { isValidRole, checkEmailExist, checkUserIdExist } = require('../helpers/db-validators');
+const { check, query } = require('express-validator');
+const { isValidRole, 
+        checkEmailExist, 
+        checkUserIdExist, 
+        checkQueryLimit,
+        checkQueryFrom } = require('../helpers/db-validators');
 const {validation} = require('../middlewares/validations');
 const { usersGet, 
         usersPost, 
@@ -10,7 +14,11 @@ const { usersGet,
 
 const router = Router();
 
-router.get('/', usersGet);
+router.get('/', [
+        query('limit').custom(checkQueryLimit),
+        query('from').custom(checkQueryFrom),
+        validation
+], usersGet);
 
 router.post('/', [
         check('email', 'Email not valid').isEmail(),
