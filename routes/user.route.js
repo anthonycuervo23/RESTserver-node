@@ -9,7 +9,8 @@ const {validation} = require('../middlewares/validations');
 const { usersGet, 
         usersPost, 
         usersPatch, 
-        usersDelete, 
+        usersDelete,
+        usersDeleteDB, 
         usersPut } = require('../controllers/user.controller');
 
 const router = Router();
@@ -39,7 +40,17 @@ router.put('/:id', [
 
 router.patch('/', usersPatch);
 
-router.delete('/', usersDelete);
+router.delete('/:id', [
+        check('id', 'user ID not valid').isMongoId(),
+        check('id').custom(checkUserIdExist),
+        validation
+], usersDelete);
+
+router.delete('/delete/:id', [
+        check('id', 'user ID not valid').isMongoId(),
+        check('id').custom(checkUserIdExist),
+        validation
+], usersDeleteDB);
 
 
 

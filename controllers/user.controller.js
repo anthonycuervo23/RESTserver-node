@@ -8,11 +8,12 @@ const usersGet = async(req = request, res = response) => {
 
   const { limit = 10, from = 0 } = req.query;
 
-  const users = await User.find({status: true})
-  .skip(Number(from))
-  .limit(Number(limit)); 
-  
-  const total = await User.countDocuments({status: true});
+  const [total, users] = await Promise.all([
+    User.countDocuments({status: true}),
+    User.find({status: true})
+      .skip(Number(from))
+      .limit(Number(limit))
+  ]);
 
     res.json({
       total: total,
@@ -67,9 +68,32 @@ const usersPost = async(req = request, res = response) => {
     });
   }
 
-  const usersDelete = (req = request, res = response) => {
+  const usersDelete = async(req = request, res = response) => {
+
+    const { id } = req.params;
+
+    //Delete fisicamente user from DB
+    // const user = await User.findByIdAndDelete(id);
+
+    //Delete user in frontend but not in Database
+    const user = await User.findByIdAndUpdate(id, {status: false});
+
     res.json({
-        msg: 'delete API . controller'
+        msg: 'User deleted Successfully',
+        user
+    });
+  }
+
+  const usersDeleteDB = async(req = request, res = response) => {
+
+    const { id } = req.params;
+
+    //Delete fisicamente user from DB
+    const user = await User.findByIdAndDelete(id);
+
+    res.json({
+        msg: 'User deleted Successfully from DB',
+        user
     });
   }
 
@@ -78,5 +102,6 @@ const usersPost = async(req = request, res = response) => {
       usersPost,
       usersPut,
       usersPatch,
-      usersDelete
+      usersDelete,
+      usersDeleteDB
   }
