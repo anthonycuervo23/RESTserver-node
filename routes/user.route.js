@@ -1,11 +1,17 @@
 const { Router } = require('express');
 const { check, query } = require('express-validator');
+
 const { isValidRole, 
         checkEmailExist, 
         checkUserIdExist, 
         checkQueryLimit,
         checkQueryFrom } = require('../helpers/db-validators');
-const {validation} = require('../middlewares/validations');
+
+const { isAdminRole, 
+        validRole, 
+        validateField, 
+        validateJWT} = require('../middlewares');   
+             
 const { usersGet, 
         usersPost, 
         usersPatch, 
@@ -18,7 +24,7 @@ const router = Router();
 router.get('/', [
         query('limit').custom(checkQueryLimit),
         query('from').custom(checkQueryFrom),
-        validation
+        validateField
 ], usersGet);
 
 router.post('/', [
@@ -28,28 +34,33 @@ router.post('/', [
         check('password', 'Password is required and must have at least 6 characters').isLength({min: 6}),
         // check('role', 'This is not a valid role').isIn(['ADMIN_ROLE', 'USER_ROLE', 'SALES_ROLE']),
         check('role').custom(isValidRole),
-        validation
+        validateField
 ] ,usersPost);
 
 router.put('/:id', [
         check('id', 'user ID not valid').isMongoId(),
         check('id').custom(checkUserIdExist),
         check('role').custom(isValidRole),
-        validation
+        validateField
 ], usersPut);
 
 router.patch('/', usersPatch);
 
 router.delete('/:id', [
+        validateJWT,
+        isAdminRole,
+        validRole('ADMIN_ROLE', 'SALES_ROLE'),
         check('id', 'user ID not valid').isMongoId(),
         check('id').custom(checkUserIdExist),
-        validation
+        validateField
 ], usersDelete);
 
 router.delete('/delete/:id', [
+        validateJWT,
+        isAdminRole,
         check('id', 'user ID not valid').isMongoId(),
         check('id').custom(checkUserIdExist),
-        validation
+        validateField
 ], usersDeleteDB);
 
 

@@ -72,15 +72,12 @@ const usersPost = async(req = request, res = response) => {
 
     const { id } = req.params;
 
-    //Delete fisicamente user from DB
-    // const user = await User.findByIdAndDelete(id);
-
     //Delete user in frontend but not in Database
     const user = await User.findByIdAndUpdate(id, {status: false});
 
     res.json({
         msg: 'User deleted Successfully',
-        user
+        user,
     });
   }
 
@@ -93,7 +90,6 @@ const usersPost = async(req = request, res = response) => {
 
     res.json({
         msg: 'User deleted Successfully from DB',
-        user
     });
   }
 

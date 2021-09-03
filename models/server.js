@@ -3,7 +3,6 @@ const cors = require('cors');
 const { dbConnection } = require('../database/config.db');
 const swaggerUI = require('swagger-ui-express');
 const docs = require('../docs');
-const swaggerJsDoc = require('swagger-jsdoc');
 
 class Server {
 
@@ -15,6 +14,7 @@ class Server {
 
         // PATHS
         this.usersPath = '/api/users';
+        this.authPath = '/api/auth';
 
         //Connect to database
         this.connectDB();
@@ -49,6 +49,7 @@ class Server {
 
     routes(){
 
+        this.app.use(this.authPath, require('../routes/auth.route'));
         this.app.use(this.usersPath, require('../routes/user.route'));
 
     }

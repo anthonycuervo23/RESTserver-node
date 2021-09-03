@@ -35,8 +35,10 @@ const UserSchema = Schema({
 
 //we need to use a normal function to use this.toObject and arrow functions doesnt work
 //desestructuramos el modelo para extraer password y __v y no mostrarlo en la respuesta
+//del servidor y transformamos _id por uid
 UserSchema.methods.toJSON = function() {
-    const { __v, password, ...user } = this.toObject();
+    const { __v, _id, password, ...user } = this.toObject();
+    user.uid = _id;
     return user;
 }
 
