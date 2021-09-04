@@ -1,3 +1,4 @@
+const { Category } = require('../models');
 const Role = require('../models/role');
 const User = require('../models/user');
 
@@ -34,9 +35,17 @@ const checkQueryFrom = async(from = 0) =>{
     }
 }
 
+const checkCategoryIdExist = async(id) =>{
+    const idExist = await Category.findById(id);
+    if ( !idExist ) {
+        throw new Error(`Category ID does not exist ${id}`);
+    }
+}
+
 module.exports = {
     isValidRole, 
     checkEmailExist, 
     checkUserIdExist, 
     checkQueryLimit,
-    checkQueryFrom}
+    checkQueryFrom,
+    checkCategoryIdExist}

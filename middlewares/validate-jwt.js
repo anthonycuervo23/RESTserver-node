@@ -39,13 +39,11 @@ const validateJWT = async(req = request, res = response, next)=> {
 
     } catch (error) {
 
-        console.log(error);
+        //console.log(error);
         res.status(401).json({
             msg: 'Invalid JWT'
         });
     }
-
-    next();
 }
 
 module.exports = {validateJWT}
