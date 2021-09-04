@@ -5,6 +5,9 @@ module.exports = {
       description: "Deleting a user from DB", // short desc
       summary: "Delete user permanently from DB",
       operationId: "deleteUserDB", // unique operation id
+      security: [{
+        bearerAuth: []
+      }],
       parameters: [
         // expected parameters
         {

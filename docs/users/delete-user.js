@@ -5,6 +5,9 @@ module.exports = {
       description: "Deleting a user", // short desc
       summary: "Delete user",
       operationId: "deleteUser", // unique operation id
+      security: [{
+        bearerAuth: []
+    }],
       parameters: [
         // expected parameters
         {

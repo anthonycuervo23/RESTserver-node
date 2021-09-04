@@ -1,5 +1,14 @@
 module.exports = {
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "apiKey",
+          scheme: "bearer",
+          in: "header",
+          name: 'x-token',
+          bearerFormat: "JWT"
+        }
+      },
       schemas: {
         // id model
         id: {

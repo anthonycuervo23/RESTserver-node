@@ -8,7 +8,7 @@ module.exports = {
         contact:{
             name:"Jean Cuervo",
             email:"jcuervo2390@gmail.com",
-            url:"https://jcuervo.xyz"
+            url:"https://jeancuervo.xyz"
         }
     }
 }

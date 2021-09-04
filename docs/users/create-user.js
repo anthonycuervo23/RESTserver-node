@@ -5,6 +5,9 @@ module.exports = {
       description: "Create new user", // short desc
       summary: "Create new user",
       operationId: "createUser", // unique operation id
+      // security: [{
+      //   bearerAuth: []
+      // }],
       parameters: [], // expected params
       requestBody: {
         // expected request body

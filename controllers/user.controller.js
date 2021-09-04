@@ -24,9 +24,9 @@ const usersGet = async(req = request, res = response) => {
   //Create new user
 const usersPost = async(req = request, res = response) => {
 
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     // we parse the body with our user model
-    const user = new User({ name, email, password, role });
+    const user = new User({ name, email, password });
 
     //Encrypt password
     const salt = bcryptjs.genSaltSync();
@@ -62,12 +62,6 @@ const usersPost = async(req = request, res = response) => {
     });
   }
 
-  const usersPatch = (req = request, res = response) => {
-    res.json({
-        msg: 'patch API - controller'
-    });
-  }
-
   const usersDelete = async(req = request, res = response) => {
 
     const { id } = req.params;
@@ -90,6 +84,12 @@ const usersPost = async(req = request, res = response) => {
 
     res.json({
         msg: 'User deleted Successfully from DB',
+    });
+  }
+
+  const usersPatch = (req = request, res = response) => {
+    res.json({
+        msg: 'patch API - controller'
     });
   }
 

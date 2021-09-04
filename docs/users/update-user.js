@@ -5,6 +5,9 @@ module.exports = {
       description: "Update user  info", // short desc
       summary: "Update user info",
       operationId: "updateUser", // unique operation id
+      // security: [{
+      //   bearerAuth: []
+      // }],
       parameters: [
         // expected params
         {
