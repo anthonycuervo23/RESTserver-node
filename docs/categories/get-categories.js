@@ -1,20 +1,19 @@
-
 module.exports = {
     get:{
-        tags: ['Users'],
-        description: "Get users paginated",
-        summary: "Get users paginated",
-        operationId: 'getUsers',
-        security: [{
-            bearerAuth: []
-        }],
+        tags: ['Categories'],
+        description: "Get categories paginated",
+        summary: "Get categories paginated",
+        operationId: 'getCategories',
+        // security: [{
+        //     bearerAuth: []
+        // }],
         parameters:[
             {
                 name: "limit", // name of param
                 in: "query", // location of param
                 schema: {
                     type: 'integer',
-                    description: 'The number of users to return'
+                    description: 'The number of categories to return'
                 }
             },
             {
@@ -22,17 +21,17 @@ module.exports = {
                 in: "query", // location of param
                 schema: {
                     type: 'integer',
-                    description: 'The number of users to skip before starting to collect the result set'
+                    description: 'The number of categories to skip before starting to collect the result set'
                 }
             }
         ],
         responses:{
             '200':{
-                description:"Users were obtained",
+                description:"Categories were obtained",
                 content:{
                     'application/json':{
                         schema:{
-                            $ref:'#/components/schemas/User'
+                            $ref:'#/components/schemas/Category'
                         }
                     }
                 }

@@ -46,7 +46,7 @@ const usersPost = async(req = request, res = response) => {
 
     const { id } = req.params
     
-    const { _id, password, google, email, ...resto } = req.body;
+    const { _id, password, google, email, role, ...resto } = req.body;
 
     if( password ) {
       //Encrypt password
@@ -54,7 +54,7 @@ const usersPost = async(req = request, res = response) => {
       resto.password = bcryptjs.hashSync(password, salt);
     }
 
-    const user = await User.findByIdAndUpdate(id, resto)
+    const user = await User.findByIdAndUpdate(id, resto, {new: true})
 
     res.json({
         msg: 'User updated successfully on Database',

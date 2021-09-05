@@ -1,11 +1,21 @@
 const { Router } = require('express');
 const { check, query } = require('express-validator');
+
 const { createCategory,
         getCategories,
-        getCategoryByID } = require('../controllers/categories.controller');
+        getCategoryByID,
+        updateCategory,
+        removeCategory,
+        deleteCategoryDB } = require('../controllers/categories.controller');
 
-const { validateField, validateJWT, } = require('../middlewares/');
-const { checkQueryFrom, checkQueryLimit, checkCategoryIdExist } = require('../helpers/db-validators')
+const { validateField, 
+        validateJWT, 
+        isAdminRole, 
+        validRole} = require('../middlewares/');
+
+const { checkQueryFrom, 
+        checkQueryLimit, 
+        checkCategoryIdExist } = require('../helpers/db-validators')
 
 const router = Router();
 
@@ -23,33 +33,43 @@ router.get('/:id', [
     validateField
 ], getCategoryByID);
 
-//Create category - private - only with JWT
+//Create category - private - only with JWT and ADMIN or SALES roles
 router.post('/', [
     validateJWT,
+    validRole('ADMIN_ROLE', 'SALES_ROLE'),
     check('name', 'Category name is required').not().isEmpty(),
     validateField,
 ], createCategory);
 
-//Update category by ID - private - only with JWT
-router.put('/:id', (req, res) => {
-    res.json({
-        msg: 'category Put'
-    })
-});
+//Update category by ID - private - only with JWT and ADMIN or SALES roles
+router.put('/:id', [ 
+    validateJWT,
+    validRole('ADMIN_ROLE', 'SALES_ROLE'),
+    check('id', 'Category ID not valid').isMongoId(),
+    check('id').custom(checkCategoryIdExist),
+    check('name', 'Category name is required').not().isEmpty(),
+    validateField
+], updateCategory);
 
-//Remove category by ID - private - only Admin or Sales
-router.delete('/:id', (req, res) => {
-    res.json({
-        msg: 'category Remove'
-    })
-});
+//Remove category by ID - private - only with JWT and ADMIN or SALES roles
+router.delete('/:id', [
+    validateJWT,
+    //isAdminRole,
+    validRole('ADMIN_ROLE', 'SALES_ROLE'),
+    check('id', 'Category ID not valid').isMongoId(),
+    check('id').custom(checkCategoryIdExist),
+    validateField
+], removeCategory);
 
-//Delete category by ID from DB - private - only Admin
-router.delete('/delete/:id', (req, res) => {
-    res.json({
-        msg: 'category Delete'
-    })
-});
+//Delete category by ID from DB - private - only with JWT and ADMIN role
+router.delete('/delete/:id', [
+    validateJWT,
+    isAdminRole,
+    validRole('ADMIN_ROLE', 'SALES_ROLE'),
+    check('id', 'Category ID not valid').isMongoId(),
+    check('id').custom(checkCategoryIdExist),
+    validateField
+], deleteCategoryDB);
 
 
 module.exports = router;
