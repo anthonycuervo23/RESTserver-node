@@ -21,9 +21,21 @@ const getCategories = async(req = request, res = response ) => {
 }
 //Get Category by ID - populate
 const getCategoryByID = async(req = request, res = response) => {
-    res.json({
-        msg: 'category Get'
-    })
+    
+    const { id } = req.params;
+
+    try {
+        
+        const category = await Category.findById(id);
+        res.json({
+            category
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Something went wrong!'
+        });
+    }
 }
 const createCategory = async(req = request, res = response ) => {
 

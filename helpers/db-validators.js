@@ -19,7 +19,7 @@ const checkEmailExist = async(email = '') =>{
 const checkUserIdExist = async(id) =>{
     const idExist = await User.findById(id);
     if ( !idExist ) {
-        throw new Error(`User ID does not exist ${id}`);
+        throw new Error(`User ID: ${id}, does not exist `);
     }
 }
 
@@ -38,7 +38,7 @@ const checkQueryFrom = async(from = 0) =>{
 const checkCategoryIdExist = async(id) =>{
     const idExist = await Category.findById(id);
     if ( !idExist ) {
-        throw new Error(`Category ID does not exist ${id}`);
+        throw new Error(`Category ID: ${id}, does not exist `);
     }
 }
 

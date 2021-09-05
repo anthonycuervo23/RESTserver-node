@@ -5,7 +5,7 @@ const { createCategory,
         getCategoryByID } = require('../controllers/categories.controller');
 
 const { validateField, validateJWT, } = require('../middlewares/');
-const { checkQueryFrom, checkQueryLimit } = require('../helpers/db-validators')
+const { checkQueryFrom, checkQueryLimit, checkCategoryIdExist } = require('../helpers/db-validators')
 
 const router = Router();
 
@@ -18,7 +18,9 @@ router.get('/', [
 
 //Get specific category by ID - public
 router.get('/:id', [
-    //check('id).custom(checkCategoryIdExist),
+    check('id', 'Category ID not valid').isMongoId(),
+    check('id').custom(checkCategoryIdExist),
+    validateField
 ], getCategoryByID);
 
 //Create category - private - only with JWT
