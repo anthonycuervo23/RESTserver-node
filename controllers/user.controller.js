@@ -87,17 +87,10 @@ const usersPost = async(req = request, res = response) => {
     });
   }
 
-  const usersPatch = (req = request, res = response) => {
-    res.json({
-        msg: 'patch API - controller'
-    });
-  }
-
   module.exports = {
       usersGet,
       usersPost,
       usersPut,
-      usersPatch,
       usersDelete,
       usersDeleteDB
   }

@@ -63,10 +63,6 @@ const createCategory = async(req = request, res = response ) => {
     // Guardar DB
     await category.save();
 
-    // await category
-    //     .populate('usuario', 'nombre')
-    //     .execPopulate();
-
     res.status(201).json(category);
 
 }
@@ -77,11 +73,11 @@ const updateCategory = async(req = request, res = response) => {
     try {
         const { id } = req.params;
 
-        const { status, createdBy, ...data} = req.body;
+        const { status, ...data} = req.body;
 
         data.name = data.name.toUpperCase();
         //update the user to get the last person who update a category
-        data.user = req.user._id;
+        data.createdBy = req.user._id;
 
         const category = await Category.findByIdAndUpdate(id, data, {new: true});
 
@@ -92,7 +88,7 @@ const updateCategory = async(req = request, res = response) => {
 
     } catch (error) {
         
-        res.stataus(500).json({
+        res.status(500).json({
             msg: 'Something went wrong!'
         });
         

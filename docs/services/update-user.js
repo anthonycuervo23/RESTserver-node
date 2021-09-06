@@ -20,6 +20,17 @@ module.exports = {
           description: "ID of user to be updated", // short desc.
         },
       ],
+      requestBody: {
+        // expected request body
+        content: {
+          // content-type
+          "application/json": {
+            schema: {
+              $ref: "#/components/schemas/UserInput", // todo input data model
+            },
+          },
+        },
+      },
       // expected responses
       responses: {
         // response code

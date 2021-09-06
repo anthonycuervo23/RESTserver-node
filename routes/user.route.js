@@ -14,7 +14,6 @@ const { isAdminRole,
              
 const { usersGet, 
         usersPost, 
-        usersPatch, 
         usersDelete,
         usersDeleteDB, 
         usersPut } = require('../controllers/user.controller');
@@ -48,8 +47,6 @@ router.put('/:id', [
         check('role').custom(isValidRole),
         validateField
 ], usersPut);
-
-// router.patch('/', usersPatch);
 
 // Remove user - Private - only with JWT and ADMIN or SALES roles
 router.delete('/:id', [
