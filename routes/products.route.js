@@ -47,7 +47,6 @@ router.put('/:id', [
     validRole('ADMIN_ROLE', 'SALES_ROLE'),
     check('id', 'Product ID not valid').isMongoId(),
     check('id').custom(checkProductIdExist),
-    check('name', 'Product name is required').not().isEmpty(),
     validateField
 ], updateProduct);
 
@@ -55,7 +54,7 @@ router.delete('/:id', [
     validateJWT,
     //isAdminRole,
     validRole('ADMIN_ROLE', 'SALES_ROLE'),
-    check('id', 'Category ID not valid').isMongoId(),
+    check('id', 'Product ID not valid').isMongoId(),
     check('id').custom(checkProductIdExist),
     validateField
 ], removeProduct);

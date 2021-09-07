@@ -47,14 +47,14 @@ const getProductByID = async(req = request, res = response)=> {
 //Create new Product - privated - Only with JWT and ADMIN or SALES role
 const createProduct = async(req = request, res = response)=> {
 
-    const { status, createdBy, available, ...body } = req.body
-    const productName = body.name;
+    const { status, createdBy, ...body } = req.body
+
     const productDB = await Product.findOne({name: body.name});
 
     ///TODO: CORREGIR ESTA FALLA <===================
-    if ( productDB == null ) {
+    if ( productDB) {
         return res.status(400).json({
-            msg: `A Product named ${ body.name }, already exist in DB`
+            msg: `A Product named ${ productDB.name }, already exist in DB`
         });
     }
 
@@ -80,8 +80,11 @@ const updateProduct = async(req = request, res = response)=> {
         const { id } = req.params;
 
         const { status, category, ...data} = req.body;
-
-        data.name = data.name.toUpperCase();
+        
+        if(data.name){
+            data.name = data.name.toUpperCase();
+        }
+        
         //update the user to get the last person who update a product
         data.createdBy = req.user._id;
 
@@ -107,7 +110,7 @@ const removeProduct = async(req = request, res = response)=> {
     const { id } = req.params;
 
     //Delete category in frontend but not in Database
-    const product = await Product.findByIdAndUpdate(id, {status: false});
+    const product = await Product.findByIdAndUpdate(id, {status: false}, {new: true});
 
     res.json({
         msg: 'Product removed Successfully',
