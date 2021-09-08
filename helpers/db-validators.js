@@ -50,6 +50,17 @@ const checkProductIdExist = async(id) =>{
     }
 }
 
+const allowedCollections = (collection = '', collections = []) => {
+    
+    const allowed = collections.includes(collection);
+
+    if (!allowed) {
+        throw new Error(`Collection ${collection} is not allowed - ${collections}`);
+    }
+
+    return true;
+}
+
 module.exports = {
     isValidRole, 
     checkEmailExist, 
@@ -57,4 +68,5 @@ module.exports = {
     checkQueryLimit,
     checkQueryFrom,
     checkCategoryIdExist,
-    checkProductIdExist}
+    checkProductIdExist,
+    allowedCollections}
