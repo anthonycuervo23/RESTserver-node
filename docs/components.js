@@ -142,6 +142,11 @@ module.exports = {
                 },
               },
             },
+            img: {
+              type: "string", // data-type
+              description: "The user profile img", // desc
+              example: "https://target.scene7.com/is/image/Target/GUEST_df817e08-791e-492f-851b-4ad88cb94730", // example of a title
+            },
             description: {
               type: "string", // data-type
               description: "The Product description", // desc

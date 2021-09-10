@@ -18,6 +18,12 @@ const updateProduct = require('./update-product');
 const removeProduct = require('./remove-product');
 const deleteProduct = require('./delete-product');
 
+const search = require('./search');
+
+const updateImgUser = require('./updeate-img-user');
+const updateImgProduct = require('./update-img-product');
+const uploadFile = require('./upload-file');
+const getImage = require('./get-image');
 
 
 module.exports = {
@@ -57,6 +63,21 @@ module.exports = {
         '/products/delete/{id}':{
             ...deleteProduct
         },
-    }
+        '/search/{collection}/{query}':{
+            ...search
+        },
+        '/upload':{
+            ...uploadFile
+        },
+        '/upload/users/{id}':{
+            ...updateImgUser
+        },
+        '/upload/products/{id}':{
+            ...updateImgProduct
+        },
+        '/upload/{collection}/{id}':{
+            ...getImage
+        },      
+    },
 }
 

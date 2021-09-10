@@ -1,3 +1,3 @@
 # Note
 
-Here we will save all the uploaded imgs
+Here we will save locally all the uploaded imgs
